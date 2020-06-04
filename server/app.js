@@ -1,17 +1,17 @@
 // const fs = require('fs')
 const path = require('path')
 const express = require('express')
-// const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
-// const cookieParser = require('cookie-parser')
-const Mongoose = require('./db')
+const Mongoose = require('./db.js')
 const resolve = file => path.resolve(__dirname, file)
 const api = require('./api')
 const app = express()
-
+const mongoHost = 'mongodb://localhost:27017/mongodb'
+// const cookieParser = require('cookie-parser')
+// const favicon = require('serve-favicon')
 // const createBundleRenderer = require('vue-server-renderer').createBundleRenderer
 
-app.set('port', (process.env.port || 3000))
+app.set('port', (process.env.port || 8081))
 // app.use(favicon(resolve('../dist/favicon.ico')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))

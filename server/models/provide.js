@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose')
+const mongoose = require('../db.js')
 
 const { Schema, model } = mongoose.promisify()
 // const { ObjectId } = Schema.Types
@@ -70,6 +70,6 @@ provideSchema = new Schema(provideSchema, {
 })
 
 provideSchema.index({ user: 1, objid: 1 })
-const Provide = model('Seek', provideSchema)
+const Provide = model('Provide', provideSchema)
 
 module.exports = Provide

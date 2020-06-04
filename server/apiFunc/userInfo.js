@@ -19,8 +19,8 @@ const userInfo = async (req, res) => {
   const provide = await Provide.find(objQuery, {}, sortObj)
   console.log(`${logHead}Provide: ${provide}`)
 
-  // Get seek data  
-  const seek = await Provide.find(objQuery, {}, sortObj)
+  // Get seek data
+  const seek = await Seek.find(objQuery, {}, sortObj)
   console.log(`${logHead}Seek: ${seek}`)
   const response = {
     status: 200,
