@@ -1,7 +1,7 @@
 <template>
-    <div>
-      <a href="#" @click.prevent="signout">123</a>
-    </div>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">森友交易平台</a>
+    </nav>
 </template>
 
 <script>
