@@ -25,8 +25,8 @@ const friendsInfoList = async (req, res) => {
     // Get provide data
     const provide = await Provide.find(objQuery, {}, sortObj)
 
-    // Get seek data  
-    const seek = await Provide.find(objQuery, {}, sortObj)
+    // Get seek data
+    const seek = await Seek.find(objQuery, {}, sortObj)
 
     let friendInfo = {
       ...friendData,
@@ -35,7 +35,7 @@ const friendsInfoList = async (req, res) => {
     }
     friendsInfoList.push(friendInfo)
   }
-  
+
   const response = {
     status: 200,
     message: 'OK',
