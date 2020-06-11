@@ -1,26 +1,24 @@
 <template>
-    <div class="container-fluied mx-4">
+    <div class="container-fluid mx-4">
         <div class="row">
-            <div class="col-3" v-for="item in friendBoard.user" :key="item.userId">
-                <div class="card">
-                    <div class="card-body">
-                        <p>
-                            <b>
-                                {{item.name}}
-                            </b>  
-                        </p>
-                        <ul class="list-group border_provide mb-2">
-                            <li class="list-group-item border_provide" v-for="item in item.provide" :key="item.objid">
-                                {{item.objname}}
-                            </li>
-                        </ul>
-                        <ul class="list-group border_provide">
-                            <li class="list-group-item border_seek" v-for="item in item.seek" :key="item.objid">
-                                {{item.objname}}
-                            </li>
-                        </ul>
+            <div class="col-3">
+                <template v-if="userdetailEditing == true">
+                    editing!!
+                </template>
+                <template v-else>
+                    <div>
+                        img
                     </div>
-                </div>
+                    <p>{{userdetail.user[0].name}}</p>
+                    <p>{{userdetail.user[0].isIlandname}}</p>
+                    <div :class="fruitClass"></div>
+                    <div class="userIntro">
+                        {{userdetail.user[0].intro}}
+                    </div>
+                    <button class="btn btn-outline-primary" @click="DetailEditHandler()">
+                        編輯個人資訊
+                    </button>
+                </template>
             </div>
         </div>
     </div>
@@ -30,7 +28,8 @@
 export default {
     data(){
         return{
-            friendBoard:{
+            text: 'ajskhjljaknsj',
+            userdetail:{
                 "status": 200,
                 "message": "OK",
                 user:[
@@ -93,28 +92,51 @@ export default {
                     }
                 ]
                 
-            }
-        };
-    },
-    // components:{
-    // 'component-layout' :{
-    //    template: `<div>{{text}}</div>`,
-    //    data(){
-    //         return {
-    //             text:'我是局部註冊'
-    //             }
-    //         }
-    //     }
-    // },
-    methods:{
-        getFriendBoard(){
-            const api = `path`,
-                  vm = this;
-            console.log(api);
+            },
+            userdetailEditing: false,
         }
     },
-    created(){
-        this.getFriendBoard();
-    }
+    computed:{
+        fruitClass:function () {
+            const vm = this;
+            let fruitNum = this.userdetail.user[0].fruit,
+                fruitClass = '';
+            if ( fruitNum === 0) {
+                fruitClass = 'fruitApple'
+            }else if( fruitNum === 1){
+                fruitClass = 'fruitOrange'
+            }else if( fruitNum === 2){
+                fruitClass = 'fruitPear'
+            }else if( fruitNum === 3){
+                fruitClass = 'fruitPeach'
+            }else if( fruitNum === 4){
+                fruitClass = 'fruitCherry'
+            }
+            return [ 'fruit' , fruitClass];
+        }
+    }    
 }
 </script>
+
+<style>
+.fruit{
+    width: 50px;
+    height: 50px;
+}
+.fruitApple{
+    background: red;
+}
+.fruitOrange{
+    background: orange;
+}
+.fruitPear{
+    background: #5ff;
+}
+.fruitPeach{
+    background: palevioletred;
+}
+.fruitCherry{
+    background: #a33;
+}
+
+</style>

@@ -1,12 +1,9 @@
 <template>
 <div>
     <Navbar/>
-    <div class="container">
-        <div class="col-12 col-lg-4 m-auto">
-            <h1>dashboard</h1>
-            <router-view/>
-        </div>
-    </div>
+    
+    <h1>dashboard</h1>
+    <router-view/>
 </div>
     
 </template>

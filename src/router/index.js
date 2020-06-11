@@ -6,6 +6,8 @@ import login from '@/components/pages/login';
 import signup from '@/components/pages/signup';
 import dashboard from '@/components/pages/dashboard';
 import friendboard from '@/components/pages/friendboard';
+import userdetail from '@/components/pages/userdetail';
+
 
 Vue.use(Router)
 
@@ -28,6 +30,10 @@ export default new Router({
                     path: 'friendboard',
                     name: 'friendboard',
                     component: friendboard,
+                }, {
+                    path: 'yourdetail',
+                    name: 'yourdetail',
+                    component: userdetail,
                 },
             ]
         }

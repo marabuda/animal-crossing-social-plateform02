@@ -45,7 +45,7 @@ export default {
             const vm = this;
             console.log(vm.user.account);
             // if(success){
-                vm.$router.push('/dashboard');
+                vm.$router.push('/dashboard/friendboard');
             // }
         },
         signup(){
