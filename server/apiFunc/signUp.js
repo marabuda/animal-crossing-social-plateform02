@@ -7,7 +7,7 @@ const logHead = '[Sign-up] '
 const signUp = async (req, res) => {
   console.log(`${logHead}Start: ${JSON.stringify(req.body)}`)
   const {
-    id, password, name, userpicture, islandname, fruit, intro, fruitpicture
+    account, password, name, userpicture, islandname, fruit, intro
   } = req.body
 
   let userCounter = await Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }})
@@ -26,7 +26,6 @@ const signUp = async (req, res) => {
     userpicture,
     islandname,
     fruit,
-    fruitpicture,
     intro,
     provide: [],
     friendlist: [],
@@ -39,7 +38,7 @@ const signUp = async (req, res) => {
   const { _id } = user
   const userAccountData = {
     user: _id,
-    id,
+    id: account,
     password
   }
 
@@ -50,7 +49,8 @@ const signUp = async (req, res) => {
   const response = {
     status: 200,
     message: 'OK',
-    id
+    account,
+    userId: number
   }
 
   res.send(response)
