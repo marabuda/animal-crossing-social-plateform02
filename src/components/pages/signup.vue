@@ -78,9 +78,14 @@ export default {
   methods:{
     signup(){
         const vm = this;
-        console.log(vm.user.fruit);
+        console.log(this.user);
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        const api = 'http://localhost:8081/signUp'
+        this.$http.post(proxyurl + api,this.user).then((response) => {
+            console.log(response)
+        })
         // if(success){
-            vm.$router.push('/login');
+            // vm.$router.push('/login');
         // }
     },
     backTologin(){

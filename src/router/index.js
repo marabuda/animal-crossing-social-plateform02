@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import axios from "axios";
+import VueAxios from "vue-axios";
 import Router from 'vue-router';
+
 
 
 import login from '@/components/pages/login';
@@ -8,8 +11,9 @@ import dashboard from '@/components/pages/dashboard';
 import friendboard from '@/components/pages/friendboard';
 import userdetail from '@/components/pages/userdetail';
 
+Vue.use(VueAxios, axios);
+Vue.use(Router);
 
-Vue.use(Router)
 
 export default new Router({
     routes: [
