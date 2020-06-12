@@ -10,7 +10,14 @@ const signUp = async (req, res) => {
     id, password, name, userpicture, islandname, fruit, intro, fruitpicture
   } = req.body
 
-  const userCounter = await Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }})
+  let userCounter = await Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }})
+  if (!userCounter) {
+    let counter = {
+      name: 'user',
+      number: 1
+    }
+    userCounter = await Counter.create(counter)
+  }
   let { number } = userCounter
 
   const userData = {
@@ -37,7 +44,7 @@ const signUp = async (req, res) => {
   }
 
   const userAccount = await UserAccount.create(userAccountData)
-  await Users.updateOne({ username }, { userAccount: userAccount._id })
+  await Users.updateOne({ userId: number }, { userAccount: userAccount._id })
   console.log(`${logHead}Create user account`)
 
   const response = {
