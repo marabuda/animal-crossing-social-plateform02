@@ -13,7 +13,7 @@ const mongoHost = 'mongodb://localhost:27017/mongodb'
 // const createBundleRenderer = require('vue-server-renderer').createBundleRenderer
 
 // Start mongodb
-mongodbUp()
+// mongodbUp()
 
 app.set('port', (process.env.port || 8081))
 // app.use(favicon(resolve('../dist/favicon.ico')))
