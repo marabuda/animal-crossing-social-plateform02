@@ -30,7 +30,6 @@ Mongoose.init({
   useCreateIndex: true,
   useFindAndModify: false,
   bufferCommands: false,
-  // autoReconnect: true,
   useUnifiedTopology: true
 })
 

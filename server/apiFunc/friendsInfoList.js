@@ -11,12 +11,13 @@ const friendsInfoList = async (req, res) => {
   const userQuery = { userId }
   // Get user data
   const userData = await Users.findOne(userQuery)
-  const { username, friendlist } = userData
+  let { username, friendlist } = userData
 
   const sortObj = { sort: { createdAt: -1 } }
   let friendsInfoList = []
-  for (let friendId of friendlist) {
-    let friendQuery = { _id: friendId }
+  for (let friendInfo of friendlist) {
+    let { userId: friendId } = friendInfo
+    let friendQuery = { userId: friendId }
     let friendData = await Users.findOne(friendQuery)
     let { userId } = friendData
     let objQuery = { userId }
