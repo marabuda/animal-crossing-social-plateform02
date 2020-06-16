@@ -16,3 +16,14 @@ textarea{
 .border_seek{
     border-color: $seek;
 }
+
+// animation
+
+@keyframes loadingRotate
+{
+    0% { transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+.loadingRotate{
+    animation: loadingRotate 3s ease infinite;
+}
