@@ -11,12 +11,12 @@ const logIn = async (req, res) => {
   const userAccount = await UserAccount.findOne(userAccountQuery)
   console.log(`${logHead} Create user account`)
 
-  const { _id, password: pw } = userAccount
-  const success = (pw === password)
+  const { user, id: userId, password: pw } = userAccount
+  const success = (pw === password && id === userId)
 
   let userInfo = null
   if (success) {
-    userInfo = await User.findOne({ userAccount: _id })
+    userInfo = await User.findOne({ _id: user })
   }
 
   const response = {
