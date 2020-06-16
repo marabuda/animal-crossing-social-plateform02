@@ -43,9 +43,21 @@ export default {
     methods:{
         signin(){
             const vm = this;
-            console.log(vm.user.account);
+            const api = 'http://localhost:8081/logIn';
+            vm.$http.post( api,this.user).then((response) => {
+                console.log(response);
+                if(response.status === 200){
+                    vm.statusTxt = '登入成功'
+                    vm.statusSvg = 2
+                }else{
+                    vm.statusTxt = '登入失敗'
+                    console.log(response.status)
+                    vm.statusSvg = 3
+                }
+            })
+            // console.log(vm.user.account);
             // if(success){
-                vm.$router.push('/dashboard/friendboard');
+                // vm.$router.push('/dashboard/friendboard');
             // }
         },
         signup(){

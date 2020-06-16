@@ -3,12 +3,16 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
- 
+import SimpleVueValidation from 'simple-vue-validator';
+
+
 import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
+Vue.use(SimpleVueValidation);
+const Validator = SimpleVueValidation.Validator;
 
 /* eslint-disable no-new */
 new Vue({

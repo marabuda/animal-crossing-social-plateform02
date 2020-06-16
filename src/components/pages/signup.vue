@@ -8,31 +8,32 @@
                         <div class="form-group row">
                             <label class="require col-sm-4" for="account">account</label>
                             <div class="col-sm-8">
-                                <input class="w-100 form-control" id="account" type="text" placeholder="account" v-model="user.account">
+                                <input class="w-100 form-control" id="account" type="text" placeholder="account" v-model.trim="user.account" required>
+                                <!-- <input :class="{ error: validation.hasError('name') }" type="text" v-model="test"> -->
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="require col-sm-4" for="password">pass word</label>
                             <div class="col-sm-8">
-                                <input class="w-100 form-control" id="password" type="password" placeholder="password" v-model="user.password">
+                                <input class="w-100 form-control" id="password" type="password" placeholder="password" v-model.trim="user.password" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="require col-sm-4" for="name">name</label>
                             <div class="col-sm-8">
-                                <input class="w-100 form-control" id="name" type="text" placeholder="島民姓名" v-model="user.name">
+                                <input class="w-100 form-control" id="name" type="text" placeholder="島民姓名" v-model.trim="user.name" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="require col-sm-4" for="islandName">island name</label>
+                            <label class="require col-sm-4" for="islandname">island name</label>
                             <div class="col-sm-8">
-                                <input class="w-100 form-control" id="islandName" type="text" placeholder="island name" v-model="user.isIlandname">
+                                <input class="w-100 form-control" id="islandname" type="text" placeholder="island name" v-model.trim="user.islandname" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="require col-sm-4" for="password">fruit</label>
                             <div class="col-sm-8">
-                                <select class="w-100 form-control" name="fruit" id="fruit" v-model="user.fruit">
+                                <select class="w-100 form-control" name="fruit" id="fruit" v-model="user.fruit" required>
                                     <option value="0">蘋果</option>
                                     <option value="1">橘子</option>
                                     <option value="2">梨子</option>
@@ -78,6 +79,9 @@
                         </div>
                     </div>
                     {{statusTxt}}
+                    <button class="btn btn-primary" @click.prevent="afterSignup()">
+                        {{btnTxt}}
+                    </button>
                 </div>
             </div>
         </div>
@@ -85,60 +89,76 @@
 </template>
 
 <script>
+// import {Validator} from 'simple-vue-validator';
+
 export default {
-  name: 'signup',
-  data () {
-    return {
-        form: true,
-        //1 loading,2 sucess, 3 faild
-        statusSvg: 1,
-        statusTxt: '',
-        user:{
-            account:'',
-            password:'',
-            name:'',
-            isIlandname:'',
-            fruit:0,
-            intro:''
+    name: 'signup',
+    data () {
+        return {
+            test:'',
+            form: true,
+            //1 loading,2 sucess, 3 faild
+            statusSvg: 1,
+            statusTxt: '',
+            btnTxt: '取消',
+            user:{
+                account:'',
+                password:'',
+                name:'',
+                islandname:'',
+                fruit:0,
+                intro:''
+            }
+        }
+    },
+    methods:{
+        signup(){
+            const vm = this;
+            // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const api = 'http://localhost:8081/signUp';
+            vm.statusTxt = '註冊中';
+            vm.form = false;
+            // this.$validate();
+            vm.$http.post( api,this.user).then((response) => {
+                console.log(response);
+                if(response.status === 200){
+                    vm.statusTxt = '註冊成功'
+                    vm.statusSvg = 2
+                }else{
+                    vm.statusTxt = '註冊失敗'
+                    console.log(response.status)
+                    vm.statusSvg = 3
+                }
+            })
+            // if(success){
+                // vm.$router.push('/login');
+            // }
+        },
+        afterSignup(){
+            console.log('afer')
+            const vm = this;
+            if (vm.form == false && vm.statusSvg == 1) {
+                vm.form = true;
+            }else if(vm.statusSvg == 2){
+                vm.$router.push('/login');
+            }else if (vm.statusSvg == 3){
+                vm.$router.push('/signup');
+            }
+        },
+        backTologin(){
+            const vm = this;
+            console.log(vm.user.account, vm.user.fruit);
+            vm.$router.push('/login');
+
         }
     }
-  },
-  methods:{
-    signup(){
-        const vm = this;
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        const api = '/signUp';
-        vm.statusTxt = '註冊中';
-        vm.form = false;
-        vm.$http.post(proxyurl + api,this.user).then((response) => {
-            console.log(response);
-            if(response.status === 200){
-                vm.statusTxt = '註冊成功'
-                vm.statusSvg = 2
-            }else{
-                vm.statusTxt = '註冊失敗'
-                console.log(response.status)
-                vm.statusSvg = 3
-            }
-        })
-        // if(success){
-            // vm.$router.push('/login');
-        // }
-    },
-    backTologin(){
-        const vm = this;
-        console.log(vm.user.account, vm.user.fruit);
-        vm.$router.push('/login');
-
-    }
-  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .status_svg{
-    width: 50%;
+    width: 40%;
     margin: auto;
 }
 </style>
