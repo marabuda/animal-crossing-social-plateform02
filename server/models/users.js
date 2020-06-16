@@ -1,7 +1,7 @@
 const mongoose = require('../db.js')
 
 const { Schema, model } = mongoose.promisify()
-const { ObjectId } = Schema.Types
+const { ObjectId, Mixed } = Schema.Types
 
 let userSchema = {
   // user status
@@ -63,10 +63,13 @@ let userSchema = {
     type: String
   },
 
-  // Array: userId
   friendlist: {
-    type: Array
+    type: Mixed
   },
+
+  friendRequest: {
+    type: Array
+  }
 
   // mixedData: {
   //   type: Mixed,
