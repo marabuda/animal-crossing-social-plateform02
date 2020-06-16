@@ -4,7 +4,7 @@ const path = require('path')
 const mongodb = async () => {
   const dbPath = path.join(__dirname, 'mongodb')
   console.log(`[MongoDB up] path: ${dbPath}`)
-  const child = spawn('C:/Program Files/MongoDB/Server/4.2/bin/mongod.exe', ['--dbpath', dbPath])
+  const child = spawn('mongod', ['--dbpath', dbPath])
 
   child.on('exit', (code) => {
     console.log(`Child process exited with code ${code}`)
