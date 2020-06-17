@@ -1,6 +1,7 @@
 const Users = require('../models/users')
 const Provide = require('../models/provide')
 const Seek = require('../models/seek')
+const to = require('await-to-js').default
 // const UserAccount = require('../models/userAccount')
 
 const logHead = '[Friends-info-list] '
@@ -10,7 +11,13 @@ const friendsInfoList = async (req, res) => {
   const { userId } = req.body
   const userQuery = { userId }
   // Get user data
-  const userData = await Users.findOne(userQuery)
+  const [udErr, userData] = await to(Users.findOne(userQuery))
+  if (udErr) {
+    res.send({
+      status: 500,
+      message: udErr
+    })
+  }
   let { username, friendlist } = userData
 
   const sortObj = { sort: { createdAt: -1 } }
@@ -18,16 +25,34 @@ const friendsInfoList = async (req, res) => {
   for (let friendInfo of friendlist) {
     let { userId: friendId } = friendInfo
     let friendQuery = { userId: friendId }
-    let friendData = await Users.findOne(friendQuery)
+    let [fdErr, friendData] = await to(Users.findOne(friendQuery))
+    if (fdErr) {
+      res.send({
+        status: 500,
+        message: fdErr
+      })
+    }
     let { userId } = friendData
     let objQuery = { userId }
     console.log(`${logHead}objQuery: ${objQuery}`)
 
     // Get provide data
-    const provide = await Provide.find(objQuery, {}, sortObj)
+    const [pErr, provide] = await to(Provide.find(objQuery, {}, sortObj))
+    if (pErr) {
+      res.send({
+        status: 500,
+        message: pErr
+      })
+    }
 
     // Get seek data
-    const seek = await Seek.find(objQuery, {}, sortObj)
+    const [sErr, seek] = await to(Seek.find(objQuery, {}, sortObj))
+    if (sErr) {
+      res.send({
+        status: 500,
+        message: sErr
+      })
+    }
 
     let friendInfo = {
       ...friendData,

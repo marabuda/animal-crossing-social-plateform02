@@ -1,5 +1,6 @@
 const Users = require('../models/users')
 const lodash = require('lodash')
+const to = require('await-to-js').default
 const logHead = '[Update-friends] '
 
 const updateFriends = async (req, res) => {

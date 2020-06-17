@@ -1,6 +1,7 @@
 const Users = require('../models/users')
 const Counter = require('../models/counter')
 const UserAccount = require('../models/userAccount')
+const to = require('await-to-js').default
 
 // signUp
 const logHead = '[Sign-up] '
@@ -10,13 +11,25 @@ const signUp = async (req, res) => {
     account, password, name, userpicture, islandname, fruit, intro
   } = req.body
 
-  let userCounter = await Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }})
+  let [ucErr, userCounter] = await to(Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }}))
+  if (ucErr) {
+    res.send({
+      status: 500,
+      message: ucErr
+    })
+  }
   if (!userCounter) {
     let counter = {
       name: 'user',
       number: 1
     }
-    userCounter = await Counter.create(counter)
+    [ucErr, userCounter] = await to(Counter.create(counter))
+    if (ucErr) {
+      res.send({
+        status: 500,
+        message: ucErr
+      })
+    }
   }
   let { number } = userCounter
 
@@ -33,7 +46,13 @@ const signUp = async (req, res) => {
     status: 'Open'
   }
 
-  const user = await Users.create(userData)
+  const [userErr, user] = await to(Users.create(userData))
+  if (userErr) {
+    res.send({
+      status: 500,
+      message: userErr
+    })
+  }
   console.log(`${logHead}Create user`)
   const { _id } = user
   const userAccountData = {
@@ -42,8 +61,20 @@ const signUp = async (req, res) => {
     password
   }
 
-  const userAccount = await UserAccount.create(userAccountData)
-  await Users.updateOne({ userId: number }, { userAccount: userAccount._id })
+  const [uaErr, userAccount] = await to(UserAccount.create(userAccountData))
+  if (uaErr) {
+    res.send({
+      status: 500,
+      message: uaErr
+    })
+  }
+  const [uuErr] = await to(Users.updateOne({ userId: number }, { userAccount: userAccount._id }))
+  if (uuErr) {
+    res.send({
+      status: 500,
+      message: uuErr
+    })
+  }
   console.log(`${logHead}Create user account`)
 
   const response = {
