@@ -1,4 +1,5 @@
 const Users = require('../models/users')
+const to = require('await-to-js').default
 const logHead = '[Confirm-friend] '
 
 const confirmFriend = async (req, res) => {
