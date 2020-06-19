@@ -1,7 +1,10 @@
-<template>
+<template >
     <div class="container-fluied mx-4">
         <div class="row">
-            <div class="col-3" v-for="item in friendBoard.user" :key="item.userId">
+            <div class="col-12 display-1 text-secondary" v-if="isNoFriend">
+                {{nofriendTxt}}
+            </div>
+            <div class="col-3" v-for="item in userloginFriendboard" :key="item.userId">
                 <div class="card">
                     <div class="card-body">
                         <p>
@@ -30,82 +33,25 @@
 export default {
     data(){
         return{
-            friendBoard:{
-                "status": 200,
-                "message": "OK",
-                user:[
-                    {
-                        "userId": 0,
-                        "name": "string",
-                        "islandname": "string",
-                        "fruit": 0,
-                        "intro": "string",
-                        "provide": [
-                            {
-                            "objname": "string",
-                            "objid": 0,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            },
-                            {
-                            "objname": "string",
-                            "objid": 1,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            }
-                        ],
-                        "seek": [
-                            {
-                            "objname": "string",
-                            "objid": 0,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            },
-                            {
-                            "objname": "string",
-                            "objid": 1,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Number
-                            }
-                        ]
-                    }
-                ]
-                
-            }
+            nofriendTxt: '你沒有朋友 :('
         };
     },
-    // components:{
-    // 'component-layout' :{
-    //    template: `<div>{{text}}</div>`,
-    //    data(){
-    //         return {
-    //             text:'我是局部註冊'
-    //             }
-    //         }
-    //     }
-    // },
+    props:[
+        'userloginFriendboard'
+    ],
+    computed:{
+        isNoFriend: function(){
+            const vm = this,
+                  friendNum = vm.userloginFriendboard.length
+            // friendNum === 0 ? (return true) : ('');
+            // if (friendNum === 0) {
+            //     return true
+            // }else{
+            //     return false
+            // }
+            return (friendNum === 0 ? true : false)
+        }
+    },
     methods:{
         getFriendBoard(){
             const api = `path`,

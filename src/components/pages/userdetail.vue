@@ -2,23 +2,36 @@
     <div class="container-fluid mx-4">
         <div class="row">
             <div class="col-3">
-                <template v-if="userdetailEditing == true">
-                    editing!!
-                </template>
-                <template v-else>
+                <div v-if="userdetailEditing == true">
+                    <form >
+                        <input class="w-100 form-control mb-2" id="name" type="text" placeholder="島民姓名" v-model="backupUserInfo.username" required>
+                        <input class="w-100 form-control mb-2" id="islandname" type="text" placeholder="island name" v-model="backupUserInfo.islandname" required>
+                        <select class="w-100 form-control mb-2" name="fruit" id="fruit" v-model="backupUserInfo.fruit" required>
+                            <option value="0">蘋果</option>
+                            <option value="1">橘子</option>
+                            <option value="2">梨子</option>
+                            <option value="3">桃子</option>
+                            <option value="4">櫻桃</option>
+                        </select>
+                        <textarea class="w-100 form-control mb-2" name="intro" id="intro" v-model="backupUserInfo.intro" cols="30" rows="10" ></textarea>
+                        <button class="btn btn-link" @click="cancleEditing">取消</button>
+                        <button class="btn btn-primary">送出</button>
+                    </form>
+                </div>
+                <div v-else>
                     <div>
                         img
                     </div>
-                    <p>{{userdetail.user[0].name}}</p>
-                    <p>{{userdetail.user[0].isIlandname}}</p>
+                    <p>{{this.userloginDetail.username}}</p>
+                    <p>{{this.userloginDetail.islandname}}</p>
                     <div :class="fruitClass"></div>
                     <div class="userIntro">
-                        {{userdetail.user[0].intro}}
+                        {{this.userloginDetail.intro}}
                     </div>
                     <button class="btn btn-outline-primary" @click="DetailEditHandler()">
                         編輯個人資訊
                     </button>
-                </template>
+                </div>
             </div>
         </div>
     </div>
@@ -28,79 +41,24 @@
 export default {
     data(){
         return{
-            text: 'ajskhjljaknsj',
-            userdetail:{
-                "status": 200,
-                "message": "OK",
-                user:[
-                    {
-                        "userId": 0,
-                        "name": "string",
-                        "islandname": "string",
-                        "fruit": 0,
-                        "intro": "string",
-                        "provide": [
-                            {
-                            "objname": "string",
-                            "objid": 0,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            },
-                            {
-                            "objname": "string",
-                            "objid": 1,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            }
-                        ],
-                        "seek": [
-                            {
-                            "objname": "string",
-                            "objid": 0,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Boolean,
-                            "deadline": Number,
-                            "deadlinecheck": Boolean
-                            },
-                            {
-                            "objname": "string",
-                            "objid": 1,
-                            "comment": "string",
-                            "addlist": [
-                                "name",
-                                "name"
-                            ],
-                            "listorder": Number
-                            }
-                        ]
-                    }
-                ]
-                
+            cacheUserInfo:{},
+            backupUserInfo:{
+                username:'',
+                islandname:'',
+                fruit:'',
+                intro:''
             },
-            userdetailEditing: false,
+            userdetailEditing: true,
         }
     },
+    props:[
+        'userloginDetail'
+    ],
     computed:{
         fruitClass:function () {
-            const vm = this;
-            let fruitNum = this.userdetail.user[0].fruit,
-                fruitClass = '';
+            const vm = this
+            let fruitNum = Number(this.userloginDetail.fruit),
+                fruitClass = ''
             if ( fruitNum === 0) {
                 fruitClass = 'fruitApple'
             }else if( fruitNum === 1){
@@ -112,9 +70,41 @@ export default {
             }else if( fruitNum === 4){
                 fruitClass = 'fruitCherry'
             }
-            return [ 'fruit' , fruitClass];
+            return [ 'fruit','mb-2' , fruitClass]
         }
-    }    
+    },
+    methods:{
+        DetailEditHandler(){
+            const vm = this
+            vm.userdetailEditing = true
+            vm.backupUserInfo.username = vm.userloginDetail.username
+            vm.backupUserInfo.islandname = vm.userloginDetail.islandname
+            vm.backupUserInfo.fruit = vm.userloginDetail.fruit
+            vm.backupUserInfo.intro = vm.userloginDetail.intro
+        },
+        cancleEditing(){
+            const vm = this
+            vm.userdetailEditing = false
+            vm.backupUserInfo.username = ''
+            vm.backupUserInfo.islandname = ''
+            vm.backupUserInfo.fruit = ''
+            vm.backupUserInfo.intro = ''
+        },
+        detailSend(){
+            const vm = this
+            const api = 'http://localhost:8081/updateUser'
+            // vm.$http.post( api, vm.backupUserInfo).then((response) => {
+            //     console.log(response);
+            //     if(response.status === 200){
+                    
+            //     }else{
+            //         vm.statusTxt = '註冊失敗'
+            //         console.log(response.status)
+            //         vm.statusSvg = 3
+            //     }
+            // })
+        }
+    }
 }
 </script>
 

@@ -47,8 +47,9 @@ export default {
             vm.$http.post( api,this.user).then((response) => {
                 console.log(response);
                 if(response.status === 200){
-                    vm.statusTxt = '登入成功'
-                    vm.statusSvg = 2
+                    console.log(response)
+                    this.$emit('emitUserLogin',response.data)
+                    vm.$router.push('/dashboard/friendboard')
                 }else{
                     vm.statusTxt = '登入失敗'
                     console.log(response.status)

@@ -52,7 +52,7 @@
 
                         <div class="d-flex justify-content-between">
                             <a class="btn btn-outline-primary" href="#" @click.prevent="backTologin">login</a>
-                            <a class="btn btn-primary" href="#" @click="signup">sign up</a>
+                            <a class="btn btn-primary" href="#" type="submit" @click="signup">sign up</a>
                         </div>
                     </form>
                 </div>
@@ -113,11 +113,11 @@ export default {
     },
     methods:{
         signup(){
-            const vm = this;
+            const vm = this
             // const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            const api = 'http://localhost:8081/signUp';
-            vm.statusTxt = '註冊中';
-            vm.form = false;
+            const api = 'http://localhost:8081/signUp'
+            vm.statusTxt = '註冊中'
+            vm.form = false
             // this.$validate();
             vm.$http.post( api,this.user).then((response) => {
                 console.log(response);

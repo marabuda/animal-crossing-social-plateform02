@@ -10,6 +10,8 @@ import signup from '@/components/pages/signup';
 import dashboard from '@/components/pages/dashboard';
 import friendboard from '@/components/pages/friendboard';
 import userdetail from '@/components/pages/userdetail';
+import yourfriend from '@/components/pages/yourfriend'
+
 
 Vue.use(VueAxios, axios);
 Vue.use(Router);
@@ -18,6 +20,9 @@ Vue.use(Router);
 export default new Router({
     routes: [
         {
+            path:'*',
+            redirect: 'login'
+        },{
             path:'/login',
             name:'login',
             component: login
@@ -38,7 +43,11 @@ export default new Router({
                     path: 'yourdetail',
                     name: 'yourdetail',
                     component: userdetail,
-                },
+                },{
+                    path: 'yourfriend',
+                    name: 'yourFriend',
+                    component: yourfriend
+                }
             ]
         }
     ]

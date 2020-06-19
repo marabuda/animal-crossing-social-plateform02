@@ -1,9 +1,10 @@
 <template>
 <div>
     <Navbar/>
-    
-    <h1>dashboard</h1>
-    <router-view/>
+    <p>{{welcomeTxt}}</p>
+    <router-view 
+        :userlogin-friendboard="this.userloginInfo.userInfo.friendlist"
+        :userlogin-detail="this.userloginInfo.userInfo"/>
 </div>
     
 </template>
@@ -12,6 +13,14 @@
 import Navbar from '../Navbar';
 export default{
     name: 'dashboard',
+    data(){
+        return{
+            welcomeTxt: `歡迎回來!${this.userloginInfo.userInfo.username}`,
+        }
+    },
+    props:[
+        'userloginInfo'
+    ],
     components:{
         Navbar
     }
