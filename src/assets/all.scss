@@ -17,8 +17,8 @@ textarea{
     border-color: $seek;
 }
 
-// animation
 
+// animation
 @keyframes loadingRotate
 {
     0% { transform: rotate(0deg);}
@@ -27,3 +27,6 @@ textarea{
 .loadingRotate{
     animation: loadingRotate 3s ease infinite;
 }
+
+
+

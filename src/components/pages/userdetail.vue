@@ -1,9 +1,22 @@
 <template>
+<div>
+    <modal name="hello-world">
+        <ul class="list-unstyled userImgSelect">
+            <li v-for="(item, key) of userImgOption" class="userImgOption" :class="key" :key="item" @click="editUserImg(items)">
+                <!-- <div :class="key"></div> -->
+            </li>
+        </ul>
+    </modal>
     <div class="container-fluid mx-4">
         <div class="row">
             <div class="col-3">
                 <div v-if="userdetailEditing == true">
                     <form >
+                        <div>
+                            <label :class="userImgClass" for="userImg" @click.prevent="modalOpen()">
+                                <input class="userImg_input" type="text" id="userImg">
+                            </label>
+                        </div>
                         <input class="w-100 form-control mb-2" id="name" type="text" placeholder="島民姓名" v-model="backupUserInfo.username" required>
                         <input class="w-100 form-control mb-2" id="islandname" type="text" placeholder="island name" v-model="backupUserInfo.islandname" required>
                         <select class="w-100 form-control mb-2" name="fruit" id="fruit" v-model="backupUserInfo.fruit" required>
@@ -13,7 +26,7 @@
                             <option value="3">桃子</option>
                             <option value="4">櫻桃</option>
                         </select>
-                        <textarea class="w-100 form-control mb-2" name="intro" id="intro" v-model="backupUserInfo.intro" cols="30" rows="10" ></textarea>
+                        <textarea class="w-100 form-control mb-2" name="intro" id="intro" v-model="backupUserInfo.intro" cols="30" rows="5" ></textarea>
                         <button class="btn btn-link" @click="cancleEditing">取消</button>
                         <button class="btn btn-primary">送出</button>
                     </form>
@@ -35,6 +48,8 @@
             </div>
         </div>
     </div>
+</div>
+    
 </template>
 
 <script>
@@ -49,6 +64,17 @@ export default {
                 intro:''
             },
             userdetailEditing: true,
+            userImg:1,
+            userImgOption:{
+                userImg1:1,
+                userImg2:2,
+                userImg3:3,
+                userImg4:4,
+                userImg5:5,
+                userImg6:6,
+                userImg7:7,
+                userImg8:8
+            }
         }
     },
     props:[
@@ -71,6 +97,13 @@ export default {
                 fruitClass = 'fruitCherry'
             }
             return [ 'fruit','mb-2' , fruitClass]
+        },
+        userImgClass:function () {
+            const vm = this
+            let userImgNum = vm.userImg,
+                userImgClass = `userImg${userImgNum}`
+           
+            return [ 'userImg_label','pointer', userImgClass]
         }
     },
     methods:{
@@ -103,12 +136,18 @@ export default {
             //         vm.statusSvg = 3
             //     }
             // })
+        },
+        modalOpen(){
+            this.$modal.show('hello-world')
+        },
+        editUserImg(item){
+            console.log(item)
         }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
 .fruit{
     width: 50px;
     height: 50px;
@@ -129,4 +168,34 @@ export default {
     background: #a33;
 }
 
+.userImg_label{
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    &:hover{
+        box-shadow: 0 0 0 0.2rem rgba(130,117,255,0.25);
+    }
+}
+
+@for $var from 1 to 9 {
+    .userImg#{$var}{
+        background-image: url(../../assets/userImg0#{$var}.jpg);
+    }
+}
+.userImgSelect{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) ;
+    grid-auto-rows: 40%;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    height: 90%;
+}
+.userImgOption{
+    display: inline-block;
+    width: auto;
+    background-size: cover;
+}
+.userImg_input{
+    opacity: 0;
+}
 </style>

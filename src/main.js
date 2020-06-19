@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import SimpleVueValidation from 'simple-vue-validator';
+import VModal from 'vue-js-modal'
 
 
 import App from './App'
@@ -11,8 +11,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
-Vue.use(SimpleVueValidation);
-const Validator = SimpleVueValidation.Validator;
+Vue.use(VModal)
 
 /* eslint-disable no-new */
 new Vue({
