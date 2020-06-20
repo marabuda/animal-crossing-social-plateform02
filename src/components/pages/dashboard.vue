@@ -1,10 +1,11 @@
 <template>
 <div>
     <Navbar/>
-    <p>{{welcomeTxt}}</p>
+    <!-- <p>{{welcomeTxt}}</p> -->
     <router-view 
         :userlogin-friendboard="this.userloginInfo.userInfo.friendlist"
-        :userlogin-detail="this.userloginInfo.userInfo"/>
+        :userlogin-detail="this.userloginInfo.userInfo"
+        @edit-userdetail="updateUserInfo"/>
 </div>
     
 </template>
@@ -21,6 +22,11 @@ export default{
     props:[
         'userloginInfo'
     ],
+    methods:{
+        updateUserInfo(val){
+            console.log(val)
+        }
+    },
     components:{
         Navbar
     }

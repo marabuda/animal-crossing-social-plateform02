@@ -9,7 +9,40 @@ textarea{
 .btn-outline-primary{
     color: $primary;
 }
-
+.btn_provide{
+    color: #fff;
+    background: $provide;
+    &:hover{
+        color: #fff;
+        background-color: darken($provide, 30%);
+    }
+}
+.btn_outline_provide{
+    border-color: $provide;
+    color: $provide;
+    &:hover{
+        color: #fff;
+        background-color: $provide;
+        border-color:darken( $provide, 30%);
+    }
+}
+.btn_seek{
+    color: #fff;
+    background: $seek;
+    &:hover{
+        color: #fff;
+        background-color: darken($seek, 30%);
+    }
+}
+.btn_outline_seek{
+    border-color: $seek;
+    color: $seek;
+    &:hover{
+        color: #fff;
+        background-color: $seek;
+        border-color:darken( $seek, 30%);
+    }
+}
 .border_provide{
     border-color: $provide;
 }
@@ -17,7 +50,12 @@ textarea{
     border-color: $seek;
 }
 
-
+.card.provide{
+    border-color: $provide;
+}
+.card.seek{
+    border-color: $seek;
+}
 // animation
 @keyframes loadingRotate
 {

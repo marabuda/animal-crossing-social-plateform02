@@ -1,20 +1,21 @@
 <template>
     <div>
-        
-    
         <div class="container">
             <div class="row">
                 <div class="col-4">
                     <div>
                         img
                     </div>
-                    <p>au/6y400</p>
+                    <p>{{userloginDetail.username}}</p></p>
                     <p>{{id}}</p>
                     <form action="post">
                         <div class="input-group mb-2">
                             <input class=" form-control" id="idFriend" type="text" placeholder="用id搜尋" required>
                             <div class="input-group-append">
-                                <span class="input-group-text">?</span>
+                                <button class="input-group-text btn btn-primary">
+                                    Q
+                                </button>
+                                <!-- <span class="input-group-text">?</span> -->
                             </div>  
                         </div>
                     </form>

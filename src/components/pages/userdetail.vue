@@ -1,15 +1,15 @@
 <template>
 <div>
-    <modal name="hello-world">
+    <modal name="userImgDetail">
         <ul class="list-unstyled userImgSelect">
-            <li v-for="(item, key) of userImgOption" class="userImgOption" :class="key" :key="item" @click="editUserImg(items)">
+            <li v-for="(item, key) of userImgOption" class="userImgOption" :class="key" :key="item" @click="editUserImg(item)">
                 <!-- <div :class="key"></div> -->
             </li>
         </ul>
     </modal>
-    <div class="container-fluid mx-4">
+    <div class="container">
         <div class="row">
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <div v-if="userdetailEditing == true">
                     <form >
                         <div>
@@ -28,22 +28,72 @@
                         </select>
                         <textarea class="w-100 form-control mb-2" name="intro" id="intro" v-model="backupUserInfo.intro" cols="30" rows="5" ></textarea>
                         <button class="btn btn-link" @click="cancleEditing">取消</button>
-                        <button class="btn btn-primary">送出</button>
+                        <button class="btn btn-primary" @click.prevent="detailSend()">送出</button>
                     </form>
                 </div>
                 <div v-else>
                     <div>
-                        img
                     </div>
-                    <p>{{this.userloginDetail.username}}</p>
-                    <p>{{this.userloginDetail.islandname}}</p>
+                    <p>{{userloginDetail.username}}</p>
+                    <p>{{userloginDetail.islandname}}</p>
                     <div :class="fruitClass"></div>
                     <div class="userIntro">
-                        {{this.userloginDetail.intro}}
+                        {{userloginDetail.intro}}
                     </div>
                     <button class="btn btn-outline-primary" @click="DetailEditHandler()">
                         編輯個人資訊
                     </button>
+                </div>
+            </div>
+            <!-- provide -->
+            <div class="col-12 col-md-4">
+                <p>
+                    提供
+                </p>
+                <ul >
+                    <li></li>
+                </ul>
+                <!-- <button class="btn btn-outline-primary btn_outline_provide w-100" @click="addProvide">+</button> -->
+                <button class="btn btn-outline-primary btn_outline_provide w-100" v-if="!userProvideEditing" @click="addProvide">+</button>
+                <div class="card provide" v-if="userProvideEditing">
+                    <div class="card-body">
+                        <input class="form-control mb-2" type="text" id="seekObjname" placeholder="物品名稱">
+                        <textarea class="form-control mb-2" name="seekComment" id="seekComment" cols="30" rows="10" placeholder="備註"></textarea>
+                        <div class="form-check ml-1 mb-2">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="">優先顯示(限三筆)
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn_outline_provide" @click="cancleAddProvide">取消</button>
+                            <button class="btn btn_provide" @click="sendAddProvide">送出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- seek -->
+            <div class="col-12 col-md-4">
+                <p>
+                    尋找
+                </p>
+                <ul >
+                    <li></li>
+                </ul>
+                <button class="btn btn-outline-primary btn_outline_seek w-100" v-if="!userSeekEditing" @click="addSeek">+</button>
+                <div class="card seek" v-if="userSeekEditing">
+                    <div class="card-body">
+                        <input class="form-control mb-2" type="text" id="seekObjname" placeholder="物品名稱">
+                        <textarea class="form-control mb-2" name="seekComment" id="seekComment" cols="30" rows="10" placeholder="備註"></textarea>
+                        <div class="form-check ml-1 mb-2">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="">優先顯示(限三筆)
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn_outline_seek" @click="cancleAddSeek">取消</button>
+                            <button class="btn btn_seek" @click="sendAddSeek">送出</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,14 +106,20 @@
 export default {
     data(){
         return{
+            userdetailEditing: false,
+            userProvideEditing: true,
+            userSeekEditing:false,
             cacheUserInfo:{},
+            cacheAddSeek:{
+
+            },
             backupUserInfo:{
                 username:'',
                 islandname:'',
                 fruit:'',
                 intro:''
             },
-            userdetailEditing: true,
+            
             userImg:1,
             userImgOption:{
                 userImg1:1,
@@ -110,6 +166,7 @@ export default {
         DetailEditHandler(){
             const vm = this
             vm.userdetailEditing = true
+            vm.backupUserInfo.userId = vm.userloginDetail.userId
             vm.backupUserInfo.username = vm.userloginDetail.username
             vm.backupUserInfo.islandname = vm.userloginDetail.islandname
             vm.backupUserInfo.fruit = vm.userloginDetail.fruit
@@ -126,23 +183,47 @@ export default {
         detailSend(){
             const vm = this
             const api = 'http://localhost:8081/updateUser'
-            // vm.$http.post( api, vm.backupUserInfo).then((response) => {
-            //     console.log(response);
-            //     if(response.status === 200){
-                    
-            //     }else{
-            //         vm.statusTxt = '註冊失敗'
-            //         console.log(response.status)
-            //         vm.statusSvg = 3
-            //     }
-            // })
+            vm.$http.post( api, vm.backupUserInfo).then((response) => {
+                console.log(response);
+                if(response.status === 200){
+                    console.log(response)
+                    this.$emit('edit-userdetail',response.data.message)
+                }else{
+                    vm.statusTxt = '註冊失敗'
+                    console.log(response.status)
+                    vm.statusSvg = 3
+                }
+            })
+            vm.userdetailEditing = false
         },
         modalOpen(){
-            this.$modal.show('hello-world')
+            this.$modal.show('userImgDetail')
         },
         editUserImg(item){
+            this.userImg = item
             console.log(item)
-        }
+            this.$modal.hide('userImgDetail')
+        },
+        addProvide(){
+            this.userProvideEditing = true
+        },
+        cancleAddProvide(){
+            this.userProvideEditing = false
+        },
+        sendAddProvide(){
+            let user = '2'
+        },
+        addSeek(){
+            this.userSeekEditing = true
+        },
+        cancleAddSeek(){
+            this.userSeekEditing = false
+        },
+        sendAddSeek(){
+            let user = '2'
+        },
+        
+        
     }
 }
 </script>

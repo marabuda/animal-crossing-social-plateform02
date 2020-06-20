@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-light bg-light ">
-        <a class="navbar-brand" href="#">森友交流平台</a>
+        <a class="navbar-brand" href="#" @click.prevent="toFriendList">森友交流平台</a>
         <div class="header_tools">
             <div class="d-inline-block dropdown">
                 <button class="btn btn-link " @click.stop="notificationToggle()">
@@ -21,8 +21,8 @@
                     <svg width="15" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" class="svg-inline--fa fa-ellipsis-h fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path></svg>
                 </button>
                 <div class="dropdown-menu" v-show="this.settingDropdown">
-                    <a class="dropdown-item" href="#" @click.stop.prevent="toYourFriend()">好友</a>
-                    <a class="dropdown-item" href="#">登出</a>
+                    <a class="dropdown-item" href="#" @click.stop.prevent="toYourFriend()">好友列表</a>
+                    <a class="dropdown-item" href="#" @click.prevent="signout">登出</a>
                 </div>    
             </div>
         </div>
@@ -57,6 +57,10 @@ export default {
         settingToggle(){
             this.settingDropdown ? this.settingDropdown = false : this.settingDropdown = true;
             this.notificationDropdown ? this.notificationDropdown = false :'';
+        },
+        toFriendList(){
+            const vm = this;
+            vm.$router.push('/dashboard/friendboard');
         },
         toYourDetail(){
             const vm = this;
