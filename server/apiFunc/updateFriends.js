@@ -12,7 +12,13 @@ const updateFriends = async (req, res) => {
     message: 'OK'
   }
   // Get user data
-  const userData = await Users.findOne(userQuery)
+  const [udErr, userData] = await to(Users.findOne(userQuery))
+  if (udErr) {
+    res.send({
+      status: 500,
+      message: udErr
+    })
+  }
   let { friendlist } = userData
 
   let friendIdx = _.findIndex(friendlist, f => f.userId === friendId)

@@ -36,7 +36,7 @@ const logIn = async (req, res) => {
   const response = {
     status: 200,
     message: 'OK',
-    userId: account,
+    userId: userInfo.userId,
     success,
     userInfo
   }

@@ -11,22 +11,44 @@ const userInfo = async (req, res) => {
   const { userId } = req.body
   const userQuery = { userId }
   // Get user data
-  const userData = await Users.findOne(userQuery)
-
+  const [udErr, userData] = await to(Users.findOne(userQuery))
+  if (udErr) {
+    res.send({
+      status: 500,
+      message: udErr
+    })
+  }
+  const {username: name, islandname, intro, fruit} = userData
   const sortObj = { sort: { createdAt: -1 } }
   const objQuery = { userId }
 
   // Get provide data
-  const provide = await Provide.find(objQuery, {}, sortObj)
+  const [pErr, provide] = await to(Provide.find(objQuery, {}, sortObj))
+  if (pErr) {
+    res.send({
+      status: 500,
+      message: pErr
+    })
+  }
   console.log(`${logHead}Provide: ${provide}`)
 
   // Get seek data
-  const seek = await Seek.find(objQuery, {}, sortObj)
+  const [sErr, seek] = await to(Seek.find(objQuery, {}, sortObj))
+  if (sErr) {
+    res.send({
+      status: 500,
+      message: sErr
+    })
+  }
   console.log(`${logHead}Seek: ${seek}`)
   const response = {
     status: 200,
     message: 'OK',
-    ...userData,
+    userId,
+    name,
+    fruit,
+    islandname,
+    intro,
     provide,
     seek
   }

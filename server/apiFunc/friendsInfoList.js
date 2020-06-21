@@ -2,6 +2,7 @@ const Users = require('../models/users')
 const Provide = require('../models/provide')
 const Seek = require('../models/seek')
 const to = require('await-to-js').default
+const _ = require('lodash')
 // const UserAccount = require('../models/userAccount')
 
 const logHead = '[Friends-info-list] '
@@ -22,45 +23,48 @@ const friendsInfoList = async (req, res) => {
 
   const sortObj = { sort: { createdAt: -1 } }
   let friendsInfoList = []
-  for (let friendInfo of friendlist) {
-    let { userId: friendId } = friendInfo
-    let friendQuery = { userId: friendId }
-    let [fdErr, friendData] = await to(Users.findOne(friendQuery))
-    if (fdErr) {
-      res.send({
-        status: 500,
-        message: fdErr
-      })
-    }
-    let { userId } = friendData
-    let objQuery = { userId }
-    console.log(`${logHead}objQuery: ${objQuery}`)
+  if (_.size(friendlist)) {
+    for (let friendInfo of friendlist) {
+      let { userId: friendId } = friendInfo
+      let friendQuery = { userId: friendId }
+      let [fdErr, friendData] = await to(Users.findOne(friendQuery))
+      if (fdErr) {
+        res.send({
+          status: 500,
+          message: fdErr
+        })
+      }
+      let { userId } = friendData
+      let objQuery = { userId }
+      console.log(`${logHead}objQuery: ${objQuery}`)
 
-    // Get provide data
-    const [pErr, provide] = await to(Provide.find(objQuery, {}, sortObj))
-    if (pErr) {
-      res.send({
-        status: 500,
-        message: pErr
-      })
-    }
+      // Get provide data
+      const [pErr, provide] = await to(Provide.find(objQuery, {}, sortObj))
+      if (pErr) {
+        res.send({
+          status: 500,
+          message: pErr
+        })
+      }
 
-    // Get seek data
-    const [sErr, seek] = await to(Seek.find(objQuery, {}, sortObj))
-    if (sErr) {
-      res.send({
-        status: 500,
-        message: sErr
-      })
-    }
+      // Get seek data
+      const [sErr, seek] = await to(Seek.find(objQuery, {}, sortObj))
+      if (sErr) {
+        res.send({
+          status: 500,
+          message: sErr
+        })
+      }
 
-    let friendInfo = {
-      ...friendData,
-      provide,
-      seek
+      let friendInfo = {
+        ...friendData,
+        provide,
+        seek
+      }
+      friendsInfoList.push(friendInfo)
     }
-    friendsInfoList.push(friendInfo)
   }
+
 
   const response = {
     status: 200,

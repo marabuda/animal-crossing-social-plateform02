@@ -17,21 +17,23 @@ const firendsList = async (req, res) => {
   let { username, friendlist, friendsRequest } = userData
 
   let firendsList = []
-  for (let friendInfo of friendlist) {
-    let { userId: friendId } = friendInfo
-    let friendQuery = { userId: friendId }
-    let [fdErr, friendData] = await to(Users.findOne(friendQuery))
-    if (fdErr) {
-      res.send({
-        status: 500,
-        message: fdErr
-      })
+  if (_.size(friendlist)) {
+    for (let friendInfo of friendlist) {
+      let { userId: friendId } = friendInfo
+      let friendQuery = { userId: friendId }
+      let [fdErr, friendData] = await to(Users.findOne(friendQuery))
+      if (fdErr) {
+        res.send({
+          status: 500,
+          message: fdErr
+        })
+      }
+      let friendInfo = {
+        name: friendData.username,
+        userId: friendData.userId
+      }
+      firendsList.push(friendInfo)
     }
-    let friendInfo = {
-      name: friendData.username,
-      userId: friendData.userId
-    }
-    firendsList.push(friendInfo)
   }
 
   const response = {

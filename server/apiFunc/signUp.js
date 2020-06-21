@@ -53,7 +53,7 @@ const signUp = async (req, res) => {
       message: userErr
     })
   }
-  console.log(`${logHead}Create user`)
+  console.log(`${logHead}Create user`, user)
   const { _id } = user
   const userAccountData = {
     user: _id,
@@ -68,6 +68,7 @@ const signUp = async (req, res) => {
       message: uaErr
     })
   }
+  console.log(userAccount)
   const [uuErr] = await to(Users.updateOne({ userId: number }, { userAccount: userAccount._id }))
   if (uuErr) {
     res.send({
