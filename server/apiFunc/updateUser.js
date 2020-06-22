@@ -12,10 +12,12 @@ const updateUser = async (req, res) => {
   } = req.body
 
   let userUpdate = {
-    name, userpicture, islandname, fruit, intro, userImg
+    username: name,
+    userpicture, islandname, fruit, intro, userImg
   }
 
-  const [userErr, userInfo] = await to(Users.updateOne({ userId }, userUpdate))
+  const userQuery = { userId }
+  const [userErr, userInfo] = await to(Users.updateOne(userQuery, userUpdate))
   if (userErr) {
     res.send({
       status: 500,
@@ -23,11 +25,25 @@ const updateUser = async (req, res) => {
     })
   }
 
+  // Get user data
+  const [udErr, userData] = await to(Users.findOne(userQuery))
+  if (udErr) {
+    res.send({
+      status: 500,
+      message: udErr
+    })
+  }
+
   const response = {
     status: 200,
     message: 'OK',
     userId,
-    name, userpicture, islandname, fruit, intro, userImg
+    name: userData.username,
+    userpicture: userData.userpicture,
+    islandname: userData.islandname,
+    fruit: userData.fruit,
+    intro: userData.intro,
+    userImg: userData.userImg
   }
 
   res.send(response)
