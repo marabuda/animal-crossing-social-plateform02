@@ -34,10 +34,10 @@
                 <div v-else>
                     <div :class="userImgClass">
                     </div>
-                    <p class="mb-0">{{userloginDetail.username}}</p>
+                    <p class="font-weight-bold mb-0">{{userloginDetail.name}}</p>
                     <p class="mb-0">{{userloginDetail.islandname}}</p>
                     <div :class="fruitClass"></div>
-                    <div class="userIntro mb-2">
+                    <div class="userIntro text-secondary mb-2">
                         {{userloginDetail.intro}}
                     </div>
                     <button class="btn btn-outline-primary" @click="DetailEditHandler()">
@@ -193,12 +193,12 @@ export default {
             const vm = this
             const api = 'http://localhost:8081/updateUser'
             vm.$http.post( api, vm.backupUserInfo).then((response) => {
-    
+                
                 if(response.status === 200){
                     console.log(response)
                     this.$emit('edit-userdetail',response.data)
                 }else{
-                    vm.statusTxt = '註冊失敗'
+                    vm.statusTxt = '失敗'
                     console.log(response.status)
                     vm.statusSvg = 3
                 }
@@ -240,6 +240,7 @@ export default {
 .userImg{
     width: 100px;
     height: 100px;
+    background-size: cover;
 }
 
 .fruit{
@@ -276,13 +277,13 @@ export default {
         background-image: url(../../assets/userImg0#{$var}.jpg);
     }
 }
-.userImgnull{
+.userImgnull, .userImgundefined{
     background-color: #ddd;
 }
 .userImgSelect{
     display: grid;
     grid-template-columns: repeat(4, 1fr) ;
-    grid-auto-rows: 40%;
+    grid-auto-rows: 50%;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
     height: 90%;

@@ -20,11 +20,12 @@ export default {
         },
         updateUserInfo(val){
             const vm = this
-            console.log(val.fruit)
-            console.log(vm.userInfo)
+            // console.log(val.userpicture)
+            vm.userloginInfo.userInfo.username = val.username
             vm.userloginInfo.userInfo.fruit = val.fruit
             vm.userloginInfo.userInfo.intro = val.intro
-            vm.userloginInfo.userinfo.islandname = val.islandname
+            vm.userloginInfo.userInfo.islandname = val.islandname
+            vm.userloginInfo.userInfo.userpicture = val.userpicture
         }
     }
 }

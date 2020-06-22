@@ -56,6 +56,24 @@ textarea{
 .card.seek{
     border-color: $seek;
 }
+
+// yourfriend
+.friendTab{
+    margin-left: 15px;
+    position: relative;
+    &:before{
+        content: '';
+        position: absolute;
+        width: 5px;
+        height: 100%;
+        display: block;
+        opacity: 0;
+        background: $primary;
+    }
+}
+.friendTab.active:before{
+    opacity: 1;
+}
 // animation
 @keyframes loadingRotate
 {

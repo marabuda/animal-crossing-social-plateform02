@@ -107,7 +107,8 @@ export default {
                 name:'',
                 islandname:'',
                 fruit:0,
-                intro:''
+                intro:'',
+                userpicture:1
             }
         }
     },
@@ -124,6 +125,7 @@ export default {
                 if(response.status === 200){
                     vm.statusTxt = '註冊成功'
                     vm.statusSvg = 2
+                    vm.btnTxt = '登入'
                 }else{
                     vm.statusTxt = '註冊失敗'
                     console.log(response.status)

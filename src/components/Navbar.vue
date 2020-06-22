@@ -61,14 +61,20 @@ export default {
         toFriendList(){
             const vm = this;
             vm.$router.push('/dashboard/friendboard');
+            vm.notificationDropdown = false;
+            vm.settingDropdown = false;
         },
         toYourDetail(){
             const vm = this;
             vm.$router.push('/dashboard/yourdetail');
+            vm.notificationDropdown = false;
+            vm.settingDropdown = false;
         },
         toYourFriend(){
             const vm = this;
             vm.$router.push('/dashboard/yourfriend');
+            vm.notificationDropdown = false;
+            vm.settingDropdown = false;
         }
     }
 }
