@@ -9,7 +9,7 @@
     </modal>
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-3 col-lg-4">
                 <div v-if="userdetailEditing == true">
                     <form >
                         <div>
@@ -184,10 +184,10 @@ export default {
             const vm = this
             const api = 'http://localhost:8081/updateUser'
             vm.$http.post( api, vm.backupUserInfo).then((response) => {
-                console.log(response);
+    
                 if(response.status === 200){
                     console.log(response)
-                    this.$emit('edit-userdetail',response.data.message)
+                    this.$emit('edit-userdetail',response.data)
                 }else{
                     vm.statusTxt = '註冊失敗'
                     console.log(response.status)
@@ -234,19 +234,19 @@ export default {
     height: 50px;
 }
 .fruitApple{
-    background: red;
+    background: url(../../assets/apple.jpg);
 }
 .fruitOrange{
-    background: orange;
+    background: url(../../assets/orange.jpg);
 }
 .fruitPear{
-    background: #5ff;
+    background: url(../../assets/pear.jpg);
 }
 .fruitPeach{
-    background: palevioletred;
+    background: url(../../assets/peach.jpg);
 }
 .fruitCherry{
-    background: #a33;
+    background: url(../../assets/cherry.jpg);
 }
 
 .userImg_label{

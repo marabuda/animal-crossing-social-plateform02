@@ -1,6 +1,8 @@
 <template>
     <div id="app">
-        <router-view v-on:emitUserLogin="cacheUserLogin" :userlogin-info="this.userloginInfo"/>
+        <router-view v-on:emitUserLogin="cacheUserLogin" 
+        :userlogin-info="this.userloginInfo"
+         @edit-userdetail="updateUserInfo"/>
     </div>
 </template>
 
@@ -15,6 +17,14 @@ export default {
     methods:{
         cacheUserLogin:function (userloginInfo) {
             this.userloginInfo = userloginInfo;
+        },
+        updateUserInfo(val){
+            const vm = this
+            console.log(val.fruit)
+            console.log(vm.userInfo)
+            vm.userloginInfo.userInfo.fruit = val.fruit
+            vm.userloginInfo.userInfo.intro = val.intro
+            vm.userloginInfo.userinfo.islandname = val.islandname
         }
     }
 }

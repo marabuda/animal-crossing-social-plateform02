@@ -24,7 +24,7 @@ export default{
     ],
     methods:{
         updateUserInfo(val){
-            console.log(val)
+            this.$emit('edit-userdetail',val)
         }
     },
     components:{
