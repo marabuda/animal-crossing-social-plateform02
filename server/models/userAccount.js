@@ -37,7 +37,8 @@ userAccountSchema = new Schema(userAccountSchema, {
       ret.id = doc.betId
       // delete ret._id
     }
-  }
+  },
+  strict: false
 })
 
 userAccountSchema.index({ id: 1 })
