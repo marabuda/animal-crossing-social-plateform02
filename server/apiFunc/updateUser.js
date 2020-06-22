@@ -13,7 +13,7 @@ const updateUser = async (req, res) => {
 
   let userUpdate = {
     username: name,
-    userpicture, islandname, fruit, intro, userImg
+    userpicture, islandname, fruit, intro
   }
 
   const userQuery = { userId }
@@ -42,8 +42,7 @@ const updateUser = async (req, res) => {
     userpicture: userData.userpicture,
     islandname: userData.islandname,
     fruit: userData.fruit,
-    intro: userData.intro,
-    userImg: userData.userImg
+    intro: userData.intro
   }
 
   res.send(response)
