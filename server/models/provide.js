@@ -66,8 +66,7 @@ provideSchema = new Schema(provideSchema, {
       ret.id = doc.betId
       // delete ret._id
     }
-  },
-  strict: false
+  }
 })
 
 provideSchema.index({ user: 1, objid: 1 })

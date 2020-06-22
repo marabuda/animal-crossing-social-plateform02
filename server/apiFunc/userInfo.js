@@ -18,7 +18,7 @@ const userInfo = async (req, res) => {
       message: udErr
     })
   }
-  const { username: name, islandname, intro, fruit, userImg } = userData
+  const {username: name, islandname, intro, fruit} = userData
   const sortObj = { sort: { createdAt: -1 } }
   const objQuery = { userId }
 
@@ -48,7 +48,6 @@ const userInfo = async (req, res) => {
     name,
     fruit,
     islandname,
-    userImg,
     intro,
     provide,
     seek
