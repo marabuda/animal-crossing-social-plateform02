@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="mt-4">
     <modal name="userImgDetail">
         <ul class="list-unstyled userImgSelect">
             <li v-for="(item, key) of userImgOption" class="userImgOption" :class="key" :key="item" @click="editUserImg(item)">
@@ -13,7 +13,7 @@
                 <div v-if="userdetailEditing == true">
                     <form >
                         <div>
-                            <label :class="userImgClass" for="userImg" @click.prevent="modalOpen()">
+                            <label :class="userImgLabelClass" for="userImg" @click.prevent="modalOpen()">
                                 <input class="userImg_input" type="text" id="userImg">
                             </label>
                         </div>
@@ -32,12 +32,12 @@
                     </form>
                 </div>
                 <div v-else>
-                    <div>
+                    <div :class="userImgClass">
                     </div>
-                    <p>{{userloginDetail.username}}</p>
-                    <p>{{userloginDetail.islandname}}</p>
+                    <p class="mb-0">{{userloginDetail.username}}</p>
+                    <p class="mb-0">{{userloginDetail.islandname}}</p>
                     <div :class="fruitClass"></div>
-                    <div class="userIntro">
+                    <div class="userIntro mb-2">
                         {{userloginDetail.intro}}
                     </div>
                     <button class="btn btn-outline-primary" @click="DetailEditHandler()">
@@ -107,20 +107,20 @@ export default {
     data(){
         return{
             userdetailEditing: false,
-            userProvideEditing: true,
+            userProvideEditing: false,
             userSeekEditing:false,
             cacheUserInfo:{},
             cacheAddSeek:{
 
             },
             backupUserInfo:{
+                userpicture:'',
                 username:'',
                 islandname:'',
                 fruit:'',
                 intro:''
             },
-            
-            userImg:1,
+     
             userImgOption:{
                 userImg1:1,
                 userImg2:2,
@@ -154,18 +154,27 @@ export default {
             }
             return [ 'fruit','mb-2' , fruitClass]
         },
+        userImgLabelClass:function () {
+            const vm = this
+            let userImgOptionNum = vm.backupUserInfo.userpicture,
+                userImgLabelClass = `userImg${userImgOptionNum}`
+                
+                return ['userImg_label','pointer', userImgLabelClass]
+        },
         userImgClass:function () {
             const vm = this
-            let userImgNum = vm.userImg,
+            let userImgNum = vm.userloginDetail.userpicture,
                 userImgClass = `userImg${userImgNum}`
            
-            return [ 'userImg_label','pointer', userImgClass]
+            // return [ 'userImg_label','pointer', userImgClass]
+            return [ 'userImg', userImgClass]
         }
     },
     methods:{
         DetailEditHandler(){
             const vm = this
             vm.userdetailEditing = true
+            vm.backupUserInfo.userpicture = vm.userloginDetail.userpicture
             vm.backupUserInfo.userId = vm.userloginDetail.userId
             vm.backupUserInfo.username = vm.userloginDetail.username
             vm.backupUserInfo.islandname = vm.userloginDetail.islandname
@@ -200,8 +209,7 @@ export default {
             this.$modal.show('userImgDetail')
         },
         editUserImg(item){
-            this.userImg = item
-            console.log(item)
+            this.backupUserInfo.userpicture = item
             this.$modal.hide('userImgDetail')
         },
         addProvide(){
@@ -229,6 +237,11 @@ export default {
 </script>
 
 <style lang="scss">
+.userImg{
+    width: 100px;
+    height: 100px;
+}
+
 .fruit{
     width: 50px;
     height: 50px;
@@ -262,6 +275,9 @@ export default {
     .userImg#{$var}{
         background-image: url(../../assets/userImg0#{$var}.jpg);
     }
+}
+.userImgnull{
+    background-color: #ddd;
 }
 .userImgSelect{
     display: grid;
