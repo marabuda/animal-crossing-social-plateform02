@@ -39,7 +39,7 @@ let seekSchema = {
   },
 
   listorder: {
-    type: Boolean
+    type: Number
   }
 }
 
@@ -55,8 +55,7 @@ seekSchema = new Schema(seekSchema, {
       ret.id = doc.betId
       // delete ret._id
     }
-  },
-  strict: false
+  }
 })
 
 seekSchema.index({ user: 1, objid: 1 })

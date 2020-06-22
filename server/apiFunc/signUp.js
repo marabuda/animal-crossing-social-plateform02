@@ -8,7 +8,7 @@ const logHead = '[Sign-up] '
 const signUp = async (req, res) => {
   console.log(`${logHead}Start: ${JSON.stringify(req.body)}`)
   const {
-    account, password, name, userpicture, islandname, fruit, intro, userImg
+    account, password, name, userpicture, islandname, fruit, intro
   } = req.body
 
   let [ucErr, userCounter] = await to(Counter.findOneAndUpdate({ name: 'user'}, { $inc: { number: 1 }}))
@@ -39,7 +39,6 @@ const signUp = async (req, res) => {
     userpicture,
     islandname,
     fruit,
-    userImg,
     intro,
     provide: [],
     friendlist: [],

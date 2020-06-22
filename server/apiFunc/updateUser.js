@@ -8,7 +8,7 @@ const logHead = '[Update-user] '
 const updateUser = async (req, res) => {
   console.log(`${logHead}Start: ${JSON.stringify(req.body)}`)
   const {
-    userId, name, userpicture, islandname, fruit, intro, userImg
+    userId, name, userpicture, islandname, fruit, intro
   } = req.body
 
   let userUpdate = {
