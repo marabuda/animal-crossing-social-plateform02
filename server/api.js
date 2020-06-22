@@ -9,6 +9,7 @@ const updateFriendsController = require('./apiFunc/updateFriends')
 const addFriendsController = require('./apiFunc/addFriends')
 const confirmFriendController = require('./apiFunc/confirmFriend')
 const updateUserController = require('./apiFunc/updateUser')
+const updateSeekController = require('./apiFunc/updateSeek')
 
 router.post('/signUp', signUpController)
 router.post('/logIn', logInController)
@@ -18,5 +19,6 @@ router.post('/updateFriends', updateFriendsController)
 router.post('/addFriends', addFriendsController)
 router.post('/confirmFriend', confirmFriendController)
 router.post('/updateUser', updateUserController)
+router.post('/updateSeek', updateSeekController)
 
 module.exports = router

@@ -42,6 +42,11 @@ let userSchema = {
     required: true
   },
 
+  // user image
+  userImg: {
+    type: Number
+  },
+
   // user picture
   userpicture: {
     type: Number
@@ -89,7 +94,8 @@ userSchema = new Schema(userSchema, {
       ret.id = doc.betId
       // delete ret._id
     }
-  }
+  },
+  strict: false
 })
 
 userSchema.index({ username: 1 })
