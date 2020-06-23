@@ -92,7 +92,7 @@ export default {
             const vm = this
             const api = 'http://localhost:8081/userInfo'
             if(vm.cacheId.userId.length){
-                this.$modal.show('foundFriend');
+                this.$modal.show('foundFriend')
                 vm.$http.post( api, vm.cacheId).then((response) => {
                     if(response.status === 200){
                         vm.foundFriend.name = response.data.name
@@ -123,6 +123,7 @@ export default {
             vm.$http.post(api, vm.addfrienddata).then((response)=>{
                 if(response.status === 200){
                     console.log(response)
+                    this.$modal.hide('foundFriend')
                 }else{
                     window.alsert('交友邀請失敗')
                 }
