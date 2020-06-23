@@ -1,14 +1,14 @@
 <template>
     <div class="mt-4">
         <modal name="foundFriend">
-            <div class="display-flex align-content-center">
-                <div></div>
-                <div>
+            <div class="d-flex align-content-center align-items-center p-2">
+                <div class="userImg flex_item"></div>
+                <div class="flex_item">
                     <p class="font-weight-bold mb-0">{{foundFriend.name}}</p>
                     <p class="mb-0">{{foundFriend.islandname}}</p>
                 </div>
-                <div>
-                    <button>送出交友邀請</button>
+                <div class="flex_item">
+                    <button class="btn btn-primary" @click.prevent="addfriend" :disabled="isSameUser">送出交友邀請</button>
                 </div>
             </div>
         </modal>
@@ -32,11 +32,11 @@
                         </div>
                     </form>
                     <ul class="list-unstyled">
-                        <li><a href="#" :class="friendList ? 'active friendTab' : 'friendTab' " @click.prevent="yourfriendList">好友列表</a></li>
-                        <li><a href="#" :class="friendList ? 'friendTab' : 'active friendTab' " @click.prevent="yourfriendRequest">新的交友邀請</a></li>
+                        <li><a href="#" :class="friendListShow ? 'active friendTab' : 'friendTab' " @click.prevent="yourfriendList">好友列表</a></li>
+                        <li><a href="#" :class="friendListShow ? 'friendTab' : 'active friendTab' " @click.prevent="yourfriendRequest">新的交友邀請</a></li>
                     </ul>
                 </div>
-                <div class="col-8" v-if="friendList">
+                <div class="col-8" v-if="friendListShow">
                     {{nofriendTxt}}
                 </div>
                 <div class="col-8" v-else>
@@ -53,13 +53,18 @@ export default {
         return{
             nofriendTxt: '你沒有朋友 :(',
             id: `ID: ${this.userloginDetail.userId}`,
-            friendList: false,
+            friendListShow: false,
+            isSameUser:false,
             cacheId:{
                 userId:''
             },
             foundFriend:{
                 name:'',
                 islandname:''
+            },
+            addfrienddata:{
+                hostId:'',
+                guestId:''
             }
         }
     },
@@ -78,42 +83,83 @@ export default {
     },
     methods:{
         yourfriendList(){
-            this.friendList = true
+            this.friendListShow = true
         },
         yourfriendRequest(){
-            this.friendList = false
+            this.friendListShow = false
         },
         findFriend(){
             const vm = this
             const api = 'http://localhost:8081/userInfo'
-            console.log(vm.cacheId)
-            this.$modal.show('foundFriend');
-            vm.$http.post( api, vm.cacheId).then((response) => {
+            if(vm.cacheId.userId.length){
+                this.$modal.show('foundFriend');
+                vm.$http.post( api, vm.cacheId).then((response) => {
+                    if(response.status === 200){
+                        vm.foundFriend.name = response.data.name
+                        vm.foundFriend.islandname = response.data.islandname
+                        if (vm.cacheId.userId == vm.userloginDetail.userId) {
+                            vm.isSameUser = true
+                        }else{
+                            vm.isSameUser = false
+                            vm.addfrienddata.guestId = Number(vm.cacheId.userId)
+                            console.log(vm.addfrienddata.guestId)
+                        }
+                        vm.cacheId.userId = ''    
+                    }else{
+                        vm.statusTxt = '失敗'
+                        console.log(response.status)
+                        vm.statusSvg = 3
+                        vm.cacheId.userId = ''
+                    }
+                })
+            }else{
+                window.alert('請輸入用戶id')
+            }
+        },
+        addfriend(){
+            const vm = this
+            const api = 'http://localhost:8081/addFriends'
+            vm.addfrienddata.hostId = vm.userloginDetail.userId
+            vm.$http.post(api, vm.addfrienddata).then((response)=>{
                 if(response.status === 200){
                     console.log(response)
-                    vm.foundFriend.name = response.data.name
-                    vm.foundFriend.islandname = response.data.islandname
-                    
                 }else{
-                    vm.statusTxt = '失敗'
-                    console.log(response.status)
-                    vm.statusSvg = 3
+                    window.alsert('交友邀請失敗')
                 }
             })
-            vm.cacheId = ''
         }
+    },
+    created:function(){
+        const vm = this
+        const api = 'http://localhost:8081/friendsRequest'
+        vm.$http.post(api, vm.userloginDetail).then((response)=>{
+            if(response.status === 200){
+                console.log(response)
+            }else{
+                // window.alsert('交友邀請失敗')
+            }
+        })
+        
     }
 }
 </script>
 
 <style lang="scss">
+.userImg{
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+}
 @for $var from 1 to 9 {
     .userImg#{$var}{
         background-image: url(../../assets/userImg0#{$var}.jpg);
     }
 }
+
 .userImgnull, .userImgundefined{
     background-color: #ddd;
 }
-
+.flex_item{
+    flex: 1;
+}
 </style>
