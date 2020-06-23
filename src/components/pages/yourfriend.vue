@@ -40,7 +40,22 @@
                     {{nofriendTxt}}
                 </div>
                 <div class="col-8" v-else>
-                    目前沒有交友邀請
+                    <div v-if="friendRequestList.length">
+                        <div class="d-flex align-content-center align-items-center border-bottom py-2" v-for="(items, index) of friendRequestList" :key="index">
+                            <div class="pr-4 flex_1">img</div>
+                            <div class="pr-4 flex_2">
+                                <p class="mb-0">user name null QQ</p>
+                                <p class="mb-0">{{items.userId}}</p>
+                            </div>
+                            <div class="flex_2">
+                                <button class="btn btn-link">刪除</button>
+                                <button class="btn btn-primary">確認</button>
+                            </div> 
+                        </div>
+                    </div>
+                    <div v-else>
+                        目前沒有交友邀請
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,7 +80,8 @@ export default {
             addfrienddata:{
                 hostId:'',
                 guestId:''
-            }
+            },
+            friendRequestList:[]
         }
     },
     props:[
@@ -136,6 +152,7 @@ export default {
         vm.$http.post(api, vm.userloginDetail).then((response)=>{
             if(response.status === 200){
                 console.log(response)
+                vm.friendRequestList = response.data.friendsRequest
             }else{
                 // window.alsert('交友邀請失敗')
             }
@@ -162,5 +179,11 @@ export default {
 }
 .flex_item{
     flex: 1;
+}
+.flex_1{
+    flex:1
+}
+.flex_2{
+    flex: 2;
 }
 </style>
