@@ -1,6 +1,4 @@
 const Users = require('../models/users')
-const Counter = require('../models/counter')
-const UserAccount = require('../models/userAccount')
 const to = require('await-to-js').default
 
 // signUp

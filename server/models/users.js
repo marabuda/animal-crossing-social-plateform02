@@ -67,7 +67,7 @@ let userSchema = {
     type: Mixed
   },
 
-  friendRequest: {
+  friendsRequest: {
     type: Array
   }
 

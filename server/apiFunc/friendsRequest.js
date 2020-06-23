@@ -7,13 +7,19 @@ const firendsRequest = async (req, res) => {
   const { userId } = req.body
   const userQuery = { userId }
   // Get user data
-  const userData = await Users.findOne(userQuery)
+  const [uErr, userData] = await to(Users.findOne(userQuery))
+  if (uErr) {
+    res.send({
+      status: 500,
+      message: uErr
+    })
+  }
   const { friendsRequest } = userData
 
   const response = {
     status: 200,
     message: 'OK',
-    friendsRequest
+    friendsRequest: friendsRequest || []
   }
   res.send(response)
 }

@@ -1,8 +1,9 @@
 const Users = require('../models/users')
 const to = require('await-to-js').default
 const logHead = '[Friends-list] '
+const _ = require('lodash')
 
-const firendsList = async (req, res) => {
+const friendsList = async (req, res) => {
   console.log(`${logHead}Start: ${JSON.stringify(req.body)}`)
   const { userId } = req.body
   const userQuery = { userId }
@@ -16,7 +17,7 @@ const firendsList = async (req, res) => {
   }
   let { username, friendlist, friendsRequest } = userData
 
-  let firendsList = []
+  let friendsList = []
   if (_.size(friendlist)) {
     for (let friendInfo of friendlist) {
       let { userId: friendId } = friendInfo
@@ -32,7 +33,7 @@ const firendsList = async (req, res) => {
         name: friendData.username,
         userId: friendData.userId
       }
-      firendsList.push(friendInfo)
+      friendsList.push(friendInfo)
     }
   }
 
@@ -43,11 +44,11 @@ const firendsList = async (req, res) => {
       name: username,
       userId
     },
-    firendsList,
+    friendsList,
     friendsRequest
   }
   res.send(response)
 }
 
 
-module.exports = firendsList
+module.exports = friendsList

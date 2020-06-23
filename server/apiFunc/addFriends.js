@@ -28,7 +28,7 @@ const addFriends = async (req, res) => {
     userId, username
   }
   friendsRequest.push(friendsReq)
-  const [uuErr] = await to(Users.update(userQuery, { friendsRequest }))
+  const [uuErr] = await to(Users.updateOne(hostQuery, { friendsRequest }))
   if (uuErr) {
     res.send({
       status: 500,

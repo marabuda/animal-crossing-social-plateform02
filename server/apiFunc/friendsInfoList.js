@@ -73,7 +73,7 @@ const friendsInfoList = async (req, res) => {
       name: username,
       userId
     },
-    firendsInfoList
+    friendsInfoList
   }
   res.send(response)
 }
