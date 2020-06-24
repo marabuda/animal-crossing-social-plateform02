@@ -1,5 +1,6 @@
 const Users = require('../models/users')
 const to = require('await-to-js').default
+const _ = require('lodash')
 const logHead = '[Friends-request] '
 
 const firendsRequest = async (req, res) => {
