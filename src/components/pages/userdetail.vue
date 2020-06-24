@@ -17,7 +17,7 @@
                                 <input class="userImg_input" type="text" id="userImg">
                             </label>
                         </div>
-                        <input class="w-100 form-control mb-2" id="name" type="text" placeholder="島民姓名" v-model="backupUserInfo.username" required>
+                        <input class="w-100 form-control mb-2" id="name" type="text" placeholder="島民姓名" v-model="backupUserInfo.name" required>
                         <input class="w-100 form-control mb-2" id="islandname" type="text" placeholder="island name" v-model="backupUserInfo.islandname" required>
                         <select class="w-100 form-control mb-2" name="fruit" id="fruit" v-model="backupUserInfo.fruit" required>
                             <option value="0">蘋果</option>
@@ -34,7 +34,7 @@
                 <div v-else>
                     <div :class="userImgClass">
                     </div>
-                    <p class="font-weight-bold mb-0">{{userloginDetail.name}}</p>
+                    <p class="font-weight-bold mb-0">{{userloginDetail.username}}</p>
                     <p class="mb-0">{{userloginDetail.islandname}}</p>
                     <div :class="fruitClass"></div>
                     <div class="userIntro text-secondary mb-2">
@@ -115,12 +115,13 @@ export default {
             },
             backupUserInfo:{
                 userpicture:'',
-                username:'',
+                name:'',
                 islandname:'',
                 fruit:'',
                 intro:''
             },
             addProvideData:{
+                userId:'',
                 objname: '',
                 comment: '',
                 addlist: [
@@ -231,9 +232,14 @@ export default {
             const vm = this
             const api = 'http://localhost:8081/updateProvide'
             console.log(vm.addProvideData)
+            vm.addProvideData.userId = vm.userloginDetail.userId
             vm.$http.post(api, vm.addProvideData).then((response)=>{
+                 console.log(response.status)
                 if(response.status === 200){
                     console.log(response)
+                }else if (response.data.status === 500){
+                    console.log(response)
+                    console.log('500')
                 }
             })
         },

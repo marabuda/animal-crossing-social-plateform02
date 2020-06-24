@@ -42,12 +42,12 @@
                 <div class="col-8" v-else>
                     <div v-if="friendRequestList.length">
                         <div class="d-flex align-content-center align-items-center border-bottom py-2" v-for="(items, index) of friendRequestList" :key="index">
-                            <div class="pr-4 flex_1">img</div>
+                            <div class="userImg pr-4 flex_1">img</div>
                             <div class="pr-4 flex_2">
-                                <p class="mb-0">user name null QQ</p>
+                                <p class="mb-0">{{items.username}}</p>
                                 <p class="mb-0">{{items.userId}}</p>
                             </div>
-                            <div class="flex_2">
+                            <div class="flex_2 text-right">
                                 <button class="btn btn-link">刪除</button>
                                 <button class="btn btn-primary">確認</button>
                             </div> 
