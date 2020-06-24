@@ -1,4 +1,5 @@
 const Users = require('../models/users')
+const _ = require('lodash')
 const to = require('await-to-js').default
 const logHead = '[Add-friends] '
 
@@ -22,10 +23,18 @@ const addFriends = async (req, res) => {
       message: gdErr
     })
   }
-  const { userId, username } = guestData
+  const { userId, username, userpicture } = guestData
   let { friendsRequest } = userData
+  let checkReq = _.find(friendsRequest, f => f.userId === userId)
+  // Duplicate invitation
+  if (checkReq) {
+    res.send({
+      status: 202,
+      message: 'Please do not repeatedly send friend invitations.'
+    })
+  }
   let friendsReq = {
-    userId, username
+    userId, username, userpicture
   }
   friendsRequest.push(friendsReq)
   const [uuErr] = await to(Users.updateOne(hostQuery, { friendsRequest }))
@@ -42,6 +51,5 @@ const addFriends = async (req, res) => {
   }
   res.send(response)
 }
-
 
 module.exports = addFriends

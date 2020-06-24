@@ -15,7 +15,7 @@ const updateUser = async (req, res) => {
   }
 
   const userQuery = { userId }
-  const [userErr, userInfo] = await to(Users.updateOne(userQuery, userUpdate))
+  const [userErr] = await to(Users.updateOne(userQuery, userUpdate))
   if (userErr) {
     res.send({
       status: 500,
