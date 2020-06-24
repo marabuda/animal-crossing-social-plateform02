@@ -57,11 +57,11 @@
                 <button class="btn btn-outline-primary btn_outline_provide w-100" v-if="!userProvideEditing" @click="addProvide">+</button>
                 <div class="card provide" v-if="userProvideEditing">
                     <div class="card-body">
-                        <input class="form-control mb-2" type="text" id="seekObjname" placeholder="物品名稱">
-                        <textarea class="form-control mb-2" name="seekComment" id="seekComment" cols="30" rows="10" placeholder="備註"></textarea>
+                        <input class="form-control mb-2" type="text" id="seekObjname" placeholder="物品名稱" v-model="addProvideData.objname">
+                        <textarea class="form-control mb-2" name="seekComment" id="seekComment" cols="30" rows="10" placeholder="備註" v-model="addProvideData.comment"></textarea>
                         <div class="form-check ml-1 mb-2">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" value="">優先顯示(限三筆)
+                                <input type="checkbox" class="form-check-input" value="" v-model="addProvideData.listorder">優先顯示(限三筆)
                             </label>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -120,7 +120,16 @@ export default {
                 fruit:'',
                 intro:''
             },
-     
+            addProvideData:{
+                objname: '',
+                comment: '',
+                addlist: [
+                    
+                ],
+                listorder: false,
+                deadline: 1,
+                deadlinecheck: false
+            },
             userImgOption:{
                 userImg1:1,
                 userImg2:2,
@@ -219,7 +228,14 @@ export default {
             this.userProvideEditing = false
         },
         sendAddProvide(){
-            let user = '2'
+            const vm = this
+            const api = 'http://localhost:8081/updateProvide'
+            console.log(vm.addProvideData)
+            vm.$http.post(api, vm.addProvideData).then((response)=>{
+                if(response.status === 200){
+                    console.log(response)
+                }
+            })
         },
         addSeek(){
             this.userSeekEditing = true
