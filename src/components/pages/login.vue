@@ -42,20 +42,25 @@ export default {
     },
     methods:{
         signin(){
-            const vm = this;
-            const api = 'http://localhost:8081/logIn';
-            vm.$http.post( api,this.user).then((response) => {
-                console.log(response);
-                if(response.status === 200){
-                    console.log(response)
-                    this.$emit('emitUserLogin',response.data)
-                    vm.$router.push('/dashboard/friendboard')
-                }else{
-                    vm.statusTxt = '登入失敗'
-                    console.log(response.status)
-                    vm.statusSvg = 3
-                }
-            })
+            const vm = this
+            const api = 'http://localhost:8081/logIn'
+            if(!vm.user.account.length || !vm.user.password.length){
+                window.alert('輸入帳號與密碼以登入')
+            }else{
+                vm.$http.post( api,vm.user).then((response) => {
+                    // console.log(response);
+                    if(response.status === 200){
+                        console.log(response)
+                        vm.$emit('emitUserLogin',response.data)
+                        vm.$router.push('/dashboard/friendboard')
+                    }else{
+                        vm.statusTxt = '登入失敗'
+                        console.log(response.status)
+                        vm.statusSvg = 3
+                    }
+                })
+            }
+            
             // console.log(vm.user.account);
             // if(success){
                 // vm.$router.push('/dashboard/friendboard');

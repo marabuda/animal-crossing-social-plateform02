@@ -81,7 +81,8 @@ export default {
                 hostId:'',
                 guestId:''
             },
-            friendRequestList:[]
+            friendRequestList:[],
+            friendRequestList2:[]
         }
     },
     props:[
@@ -153,6 +154,10 @@ export default {
             if(response.status === 200){
                 console.log(response)
                 vm.friendRequestList = response.data.friendsRequest
+                vm.friendRequestList2 = response.data.friendsRequest.map(function (item, index) {
+                    let temp = `userImg${item.userpicture}`  
+                    return {'userId':item.userId,'username':item.username,'userpictureclass00':temp}
+                })
             }else{
                 // window.alsert('交友邀請失敗')
             }
